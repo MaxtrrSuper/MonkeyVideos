@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>MonkeyVideos 🐵</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-content">
+            <div class="loading-emoji">🐵</div>
+            <h1>Monkey<span>Videos</span></h1>
+            <div class="loading-bar"><div class="loading-progress"></div></div>
+        </div>
+    </div>
+
+    <header class="header">
+        <div class="header-content">
+            <div class="logo"><span class="logo-emoji">🐵</span><span class="logo-text">Monkey<span>Videos</span></span></div>
+            <div class="header-actions">
+                <button class="icon-btn" id="myVideosBtn">📱</button>
+                <button class="icon-btn" id="searchBtn">🔍</button>
+                <button class="icon-btn" id="recordBtn2">🎥</button>
+                <button class="icon-btn upload-btn" id="uploadBtn">➕</button>
+            </div>
+        </div>
+        <div class="search-bar" id="searchBar" style="display:none;">
+            <input type="text" placeholder="Поиск..." id="searchInput">
+            <button class="icon-btn" id="searchClose">✕</button>
+        </div>
+    </header>
+
+    <nav class="categories">
+        <button class="category-btn active" data-category="all">🐵 Все</button>
+        <button class="category-btn" data-category="uploaded">📤 Загруженные</button>
+        <button class="category-btn" data-category="popular">🔥 Популярные</button>
+    </nav>
+
+    <main class="video-feed" id="videoFeed"></main>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="/js/api.js"></script>
+    <script src="/js/player.js"></script>
+    <script src="/js/gestures.js"></script>
+    <script src="/js/recorder.js"></script>
+    <script src="/js/ui.js"></script>
+    <script src="/js/app.js"></script>
+</body>
+</html>
