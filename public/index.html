@@ -6,58 +6,69 @@
     <title>MonkeyVideos 🐵</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html, body { height: 100%; overflow: hidden; background: #0f0f1a; color: white; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+        html, body { height: 100%; overflow: hidden; background: #0f0f1a; color: white; font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
         
         .header { position: fixed; top: 0; left: 0; right: 0; padding: 12px 16px; background: linear-gradient(180deg, rgba(15,15,26,0.95) 0%, transparent 100%); z-index: 100; display: flex; justify-content: space-between; align-items: center; }
         .logo { font-size: 22px; font-weight: 800; }
         .logo span { color: #ff6b35; }
-        .header-btns { display: flex; gap: 12px; }
-        .icon-btn { width: 40px; height: 40px; border-radius: 50%; border: none; background: rgba(255,255,255,0.12); color: white; font-size: 18px; cursor: pointer; transition: all 0.2s; backdrop-filter: blur(10px); }
-        .icon-btn:active { transform: scale(0.9); background: rgba(255,255,255,0.25); }
+        .header-btns { display: flex; gap: 10px; }
+        .icon-btn { width: 38px; height: 38px; border-radius: 50%; border: none; background: rgba(255,255,255,0.12); color: white; font-size: 17px; cursor: pointer; }
+        .icon-btn:active { transform: scale(0.9); }
         
-        .video-feed { position: relative; width: 100%; height: 100%; touch-action: pan-y; }
-        .video-item { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94); will-change: transform; }
-        .video-wrapper { position: relative; width: 100%; height: 100%; overflow: hidden; }
-        .video-wrapper video { width: 100%; height: 100%; object-fit: cover; }
-        .video-wrapper::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 45%; background: linear-gradient(transparent, rgba(0,0,0,0.7)); pointer-events: none; }
+        .video-feed { position: relative; width: 100%; height: 100%; }
+        .video-item { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; transition: transform 0.35s cubic-bezier(0.25,0.46,0.45,0.94); }
+        .video-item video { width: 100%; height: 100%; object-fit: cover; }
+        .video-item::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 50%; background: linear-gradient(transparent, rgba(0,0,0,0.7)); pointer-events: none; }
         
-        .actions { position: absolute; right: 12px; bottom: 120px; display: flex; flex-direction: column; gap: 22px; z-index: 10; }
-        .action-btn { display: flex; flex-direction: column; align-items: center; cursor: pointer; transition: transform 0.15s; }
+        .actions { position: absolute; right: 14px; bottom: 130px; display: flex; flex-direction: column; gap: 22px; z-index: 10; }
+        .action-btn { display: flex; flex-direction: column; align-items: center; cursor: pointer; }
         .action-btn:active { transform: scale(0.85); }
-        .action-icon { width: 48px; height: 48px; border-radius: 50%; background: rgba(255,255,255,0.12); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; font-size: 24px; transition: all 0.2s; }
-        .action-btn.liked .action-icon { background: #ff2d55; animation: pulse 0.4s ease; }
-        @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.2)} }
-        .action-btn span { font-size: 12px; font-weight: 700; margin-top: 5px; text-shadow: 0 1px 3px rgba(0,0,0,0.8); }
+        .action-icon { width: 46px; height: 46px; border-radius: 50%; background: rgba(255,255,255,0.12); display: flex; align-items: center; justify-content: center; font-size: 22px; }
+        .action-btn.liked .action-icon { background: #ff2d55; }
+        .action-btn span { font-size: 11px; font-weight: 700; margin-top: 4px; text-shadow: 0 1px 3px rgba(0,0,0,0.8); }
         
         .info { position: absolute; bottom: 24px; left: 14px; right: 80px; z-index: 10; }
-        .user-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-        .avatar { width: 42px; height: 42px; border-radius: 50%; background: rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; font-size: 24px; border: 2px solid #ff6b35; }
-        .username { font-weight: 700; font-size: 16px; text-shadow: 0 1px 4px rgba(0,0,0,0.6); }
-        .desc { font-size: 14px; line-height: 1.4; text-shadow: 0 1px 3px rgba(0,0,0,0.6); opacity: 0.9; }
+        .user-row { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+        .avatar { width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; font-size: 22px; border: 2px solid #ff6b35; }
+        .username { font-weight: 700; font-size: 15px; text-shadow: 0 1px 4px rgba(0,0,0,0.6); }
+        .verified { color: #4dabf7; margin-left: 4px; }
+        .desc { font-size: 13px; opacity: 0.9; text-shadow: 0 1px 3px rgba(0,0,0,0.6); }
+        
+        .search-bar { position: fixed; top: 60px; left: 16px; right: 16px; z-index: 110; display: none; }
+        .search-bar input { width: 100%; padding: 14px 20px; border-radius: 25px; border: none; background: rgba(0,0,0,0.8); color: white; font-size: 16px; backdrop-filter: blur(20px); outline: none; }
         
         .modal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); display: none; align-items: flex-end; justify-content: center; z-index: 200; }
         .modal.active { display: flex; }
-        .modal-content { background: #1a1a2e; border-radius: 20px 20px 0 0; width: 100%; max-width: 500px; max-height: 85vh; overflow-y: auto; padding: 24px; animation: slideUp 0.3s ease; }
-        @keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
+        .modal-content { background: #1a1a2e; border-radius: 20px 20px 0 0; width: 100%; max-width: 500px; max-height: 85vh; overflow-y: auto; padding: 24px; animation: up 0.3s; }
+        @keyframes up { from{transform:translateY(100%)} to{transform:translateY(0)} }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .modal-header h2 { font-size: 20px; }
         .close-btn { width: 32px; height: 32px; border-radius: 50%; border: none; background: rgba(255,255,255,0.1); color: white; font-size: 18px; cursor: pointer; }
-        .form-group { margin-bottom: 14px; }
-        .form-group label { display: block; margin-bottom: 6px; font-size: 13px; color: #999; }
+        
+        .form-group { margin-bottom: 12px; }
         .form-group input, .form-group textarea { width: 100%; padding: 12px; border-radius: 10px; border: 2px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: white; font-size: 15px; outline: none; }
         .form-group input:focus, .form-group textarea:focus { border-color: #ff6b35; }
-        .upload-zone { border: 2px dashed rgba(255,255,255,0.2); border-radius: 14px; padding: 30px; text-align: center; cursor: pointer; margin-bottom: 16px; transition: all 0.2s; }
-        .upload-zone:hover { border-color: #ff6b35; background: rgba(255,107,53,0.05); }
-        .upload-zone p { margin: 8px 0; font-size: 14px; }
-        .upload-zone span { font-size: 12px; color: #888; }
-        .submit-btn { width: 100%; padding: 14px; border-radius: 25px; border: none; background: #ff6b35; color: white; font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
-        .submit-btn:active { transform: scale(0.97); background: #e55a2b; }
+        .submit-btn { width: 100%; padding: 14px; border-radius: 25px; border: none; background: #ff6b35; color: white; font-size: 16px; font-weight: 700; cursor: pointer; }
+        .submit-btn:active { transform: scale(0.97); }
         
-        .toast-container { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 300; display: flex; flex-direction: column; gap: 8px; }
-        .toast { padding: 12px 24px; border-radius: 25px; background: rgba(0,0,0,0.9); color: white; font-size: 14px; font-weight: 600; backdrop-filter: blur(10px); animation: toastIn 0.3s ease; text-align: center; }
-        @keyframes toastIn { from{opacity:0;transform:translateY(-20px)} to{opacity:1;transform:translateY(0)} }
+        .comment-item { padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .comment-item strong { color: #ff6b35; }
+        .comment-item p { margin-top: 4px; font-size: 14px; }
+        
+        .tabs { display: flex; margin-bottom: 20px; }
+        .tab { flex: 1; padding: 10px; text-align: center; cursor: pointer; border-bottom: 2px solid transparent; color: #888; }
+        .tab.active { color: #ff6b35; border-color: #ff6b35; font-weight: 700; }
+        
+        .toast-container { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 300; }
+        .toast { padding: 12px 24px; border-radius: 25px; background: rgba(0,0,0,0.9); color: white; font-size: 14px; font-weight: 600; backdrop-filter: blur(10px); animation: in 0.3s; text-align: center; margin-bottom: 6px; }
+        @keyframes in { from{opacity:0;transform:translateY(-20px)} to{opacity:1;transform:translateY(0)} }
         
         .badge { position: absolute; top: 80px; left: 14px; background: #ff6b35; color: white; padding: 4px 12px; border-radius: 12px; font-size: 11px; font-weight: 700; z-index: 10; }
+        .admin-list { max-height: 300px; overflow-y: auto; }
+        .admin-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .admin-item button { padding: 6px 12px; border-radius: 6px; border: none; cursor: pointer; font-size: 12px; }
+        .btn-verify { background: #4dabf7; color: white; }
+        .btn-ban { background: #ff2d55; color: white; }
+        .btn-unban { background: #34c759; color: white; }
     </style>
 </head>
 <body>
@@ -65,242 +76,209 @@
     <header class="header">
         <div class="logo">🐵 Monkey<span>Videos</span></div>
         <div class="header-btns">
-            <button class="icon-btn" onclick="openUpload()" title="Загрузить видео">➕</button>
-            <button class="icon-btn" onclick="openAdmin()" title="Админ-панель">⚙️</button>
+            <button class="icon-btn" onclick="toggleSearch()">🔍</button>
+            <button class="icon-btn" onclick="openUpload()">➕</button>
+            <button class="icon-btn" onclick="openAuth()">👤</button>
+            <button class="icon-btn" onclick="openAdmin()">⚙️</button>
         </div>
     </header>
+
+    <div class="search-bar" id="searchBar">
+        <input type="text" id="searchInput" placeholder="Поиск видео..." onkeydown="if(event.key==='Enter')searchVideos()">
+    </div>
 
     <main class="video-feed" id="videoFeed"></main>
     <div class="toast-container" id="toastContainer"></div>
 
+    <!-- Модалка регистрации/входа -->
+    <div class="modal" id="authModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="authTitle">👤 Вход</h2>
+                <button class="close-btn" onclick="closeAuth()">✕</button>
+            </div>
+            <div class="tabs">
+                <div class="tab active" onclick="switchAuthTab('login')">Вход</div>
+                <div class="tab" onclick="switchAuthTab('register')">Регистрация</div>
+            </div>
+            <div class="form-group"><input type="text" id="authUsername" placeholder="Логин"></div>
+            <div class="form-group"><input type="password" id="authPassword" placeholder="Пароль"></div>
+            <button class="submit-btn" onclick="doAuth()">Войти</button>
+            <div id="authStatus" style="margin-top:12px;text-align:center;"></div>
+        </div>
+    </div>
+
     <!-- Модалка загрузки -->
     <div class="modal" id="uploadModal">
         <div class="modal-content">
-            <div class="modal-header">
-                <h2>📤 Загрузить видео</h2>
-                <button class="close-btn" onclick="closeUpload()">✕</button>
-            </div>
-            <div class="upload-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
-                <div style="font-size:40px;">🎬</div>
-                <p>Нажмите, чтобы выбрать видео</p>
-                <span>MP4, WebM до 50MB</span>
+            <div class="modal-header"><h2>📤 Загрузить видео</h2><button class="close-btn" onclick="closeUpload()">✕</button></div>
+            <div style="border:2px dashed rgba(255,255,255,0.2);border-radius:14px;padding:30px;text-align:center;cursor:pointer;margin-bottom:16px;" onclick="document.getElementById('fileInput').click()">
+                <div style="font-size:40px;">🎬</div><p>Выбрать видео</p>
             </div>
             <input type="file" id="fileInput" accept="video/*" style="display:none" onchange="fileSelected(event)">
-            <div id="fileInfo" style="display:none; margin-bottom:14px; padding:10px; background:rgba(255,255,255,0.05); border-radius:8px;"></div>
-            <div class="form-group"><input type="text" id="uploadUser" placeholder="Ваше имя @username"></div>
-            <div class="form-group"><textarea id="uploadDesc" rows="2" placeholder="Описание видео..."></textarea></div>
+            <div id="fileInfo" style="display:none;margin-bottom:12px;padding:10px;background:rgba(255,255,255,0.05);border-radius:8px;"></div>
+            <div class="form-group"><input type="text" id="uploadUser" placeholder="Ваше имя"></div>
+            <div class="form-group"><textarea id="uploadDesc" rows="2" placeholder="Описание..."></textarea></div>
             <button class="submit-btn" onclick="uploadVideo()">🚀 Загрузить</button>
         </div>
     </div>
 
-<script>
-let videos = [];
-let currentIndex = 0;
-let startY = 0;
-let selectedFile = null;
+    <!-- Модалка комментариев -->
+    <div class="modal" id="commentsModal">
+        <div class="modal-content">
+            <div class="modal-header"><h2>💬 Комментарии</h2><button class="close-btn" onclick="closeComments()">✕</button></div>
+            <div id="commentsList" style="max-height:300px;overflow-y:auto;margin-bottom:12px;"></div>
+            <div style="display:flex;gap:8px;">
+                <input type="text" id="commentInput" placeholder="Написать..." style="flex:1;padding:10px;border-radius:20px;border:none;background:rgba(255,255,255,0.1);color:white;outline:none;">
+                <button onclick="addComment()" style="width:44px;height:44px;border-radius:50%;border:none;background:#ff6b35;color:white;font-size:20px;cursor:pointer;">➤</button>
+            </div>
+        </div>
+    </div>
 
-// Загрузка видео с сервера
+<script>
+let videos = [], currentIndex = 0, startY = 0, selectedFile = null;
+let currentUser = JSON.parse(localStorage.getItem('monkeyUser') || 'null');
+let currentVideoId = null, authMode = 'login';
+
+// ЗАГРУЗКА ВИДЕО
 async function loadVideos() {
-    try {
-        const res = await fetch('/api/videos');
-        const data = await res.json();
-        videos = data.data || [];
-        renderVideos();
-    } catch(e) {
-        console.error('Ошибка загрузки:', e);
-    }
+    const res = await fetch('/api/videos');
+    const data = await res.json();
+    videos = data.data || [];
+    renderVideos();
 }
 
-// Отрисовка всех видео
 function renderVideos() {
     const feed = document.getElementById('videoFeed');
     feed.innerHTML = '';
-    
-    if (videos.length === 0) {
-        feed.innerHTML = '<div style="text-align:center;padding-top:40vh;"><div style="font-size:80px;">🐵</div><h2>Нет видео</h2><p style="color:#888;">Загрузите первое!</p></div>';
-        return;
-    }
+    if (!videos.length) { feed.innerHTML = '<div style="text-align:center;padding-top:40vh;"><div style="font-size:80px;">🐵</div><h2>Нет видео</h2></div>'; return; }
     
     videos.forEach((v, i) => {
         const el = document.createElement('div');
         el.className = 'video-item';
-        el.style.transform = `translateY(${i * 100}%)`;
+        el.style.transform = `translateY(${i*100}%)`;
         el.innerHTML = `
-            <div class="video-wrapper">
-                <video src="${v.url}" loop muted playsinline preload="metadata"></video>
-            </div>
-            ${v.is_uploaded ? '<div class="badge">📤 Загружено</div>' : ''}
+            <video src="${v.url}" loop muted playsinline></video>
+            ${v.is_uploaded?'<div class="badge">📤</div>':''}
             <div class="actions">
-                <div class="action-btn" onclick="toggleLike(${v.id}, this)">
-                    <div class="action-icon">❤️</div>
-                    <span>${formatCount(v.likes || 0)}</span>
-                </div>
-                <div class="action-btn" onclick="showToast('💬 Комментарии скоро')">
-                    <div class="action-icon">💬</div>
-                    <span>0</span>
-                </div>
+                <div class="action-btn" onclick="toggleLike(${v.id},this)"><div class="action-icon">❤️</div><span>${fmt(v.likes)}</span></div>
+                <div class="action-btn" onclick="openComments(${v.id})"><div class="action-icon">💬</div><span>Комм.</span></div>
             </div>
             <div class="info">
-                <div class="user-row">
-                    <div class="avatar">${v.avatar || '🐵'}</div>
-                    <span class="username">${v.user || '@user'}</span>
-                </div>
-                <div class="desc">${v.description || ''}</div>
+                <div class="user-row"><div class="avatar">${v.avatar||'🐵'}</div><span class="username">${v.user}${v.verified?'<span class="verified">✓</span>':''}</span></div>
+                <div class="desc">${v.description||''}</div>
             </div>
         `;
         feed.appendChild(el);
     });
-    
-    if (videos.length > 0) playVideo(0);
+    if (videos.length) playVideo(0);
 }
 
-// Воспроизведение видео
-function playVideo(index) {
-    currentIndex = index;
-    document.querySelectorAll('video').forEach((v, i) => {
-        if (i === index) v.play().catch(() => {});
-        else { v.pause(); v.currentTime = 0; }
-    });
+function playVideo(i) { currentIndex = i; document.querySelectorAll('video').forEach((v,idx) => idx===i ? v.play().catch(()=>{}) : (v.pause(),v.currentTime=0)); }
+function switchVideo(i) { if(i<0||i>=videos.length||i===currentIndex) return; currentIndex = i; document.querySelectorAll('.video-item').forEach((el,idx) => el.style.transform = `translateY(${(idx-i)*100}%)`); setTimeout(()=>playVideo(i), 350); }
+
+// ЛАЙК
+async function toggleLike(id, btn) {
+    const res = await fetch(`/api/videos/${id}/like`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({userId: currentUser?.username || 'anon'}) });
+    const d = await res.json();
+    if (d.success) { btn.classList.toggle('liked', d.data.liked); btn.querySelector('span').textContent = fmt(d.data.likes); }
 }
 
-// Переключение видео
-function switchVideo(index) {
-    if (index < 0 || index >= videos.length || index === currentIndex) return;
-    currentIndex = index;
-    document.querySelectorAll('.video-item').forEach((el, i) => {
-        el.style.transform = `translateY(${(i - index) * 100}%)`;
-    });
-    setTimeout(() => playVideo(index), 350);
+// КОММЕНТАРИИ
+async function openComments(id) { currentVideoId = id; document.getElementById('commentsModal').classList.add('active'); await loadComments(); }
+function closeComments() { document.getElementById('commentsModal').classList.remove('active'); }
+async function loadComments() {
+    const res = await fetch(`/api/videos/${currentVideoId}/comments`);
+    const d = await res.json();
+    document.getElementById('commentsList').innerHTML = (d.data||[]).map(c => `<div class="comment-item"><strong>${c.user}</strong><p>${c.text}</p></div>`).join('') || '<p style="color:#888;text-align:center;">Нет комментариев</p>';
+}
+async function addComment() {
+    const text = document.getElementById('commentInput').value.trim();
+    if (!text) return;
+    await fetch(`/api/videos/${currentVideoId}/comments`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({user: currentUser?.username || 'Аноним', text}) });
+    document.getElementById('commentInput').value = '';
+    loadComments();
 }
 
-// Лайк
-async function toggleLike(videoId, btn) {
-    try {
-        const res = await fetch(`/api/videos/${videoId}/like`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ userId: 'user_' + Date.now() })
-        });
-        const data = await res.json();
-        if (data.success) {
-            btn.classList.toggle('liked', data.data.liked);
-            btn.querySelector('span').textContent = formatCount(data.data.likes);
-        }
-    } catch(e) {
-        btn.classList.toggle('liked');
-    }
-}
-
-// Загрузка видео
-function openUpload() { document.getElementById('uploadModal').classList.add('active'); }
+// ЗАГРУЗКА
+function openUpload() { document.getElementById('uploadModal').classList.add('active'); if(currentUser) document.getElementById('uploadUser').value = currentUser.username; }
 function closeUpload() { document.getElementById('uploadModal').classList.remove('active'); }
-
-function fileSelected(e) {
-    selectedFile = e.target.files[0];
-    if (selectedFile) {
-        document.getElementById('fileInfo').style.display = 'block';
-        document.getElementById('fileInfo').innerHTML = `📁 ${selectedFile.name} (${(selectedFile.size/1024/1024).toFixed(1)}MB)`;
-    }
-}
-
+function fileSelected(e) { selectedFile = e.target.files[0]; if(selectedFile) { document.getElementById('fileInfo').style.display='block'; document.getElementById('fileInfo').textContent = `📁 ${selectedFile.name} (${(selectedFile.size/1024/1024).toFixed(1)}MB)`; } }
 async function uploadVideo() {
-    if (!selectedFile) return showToast('❌ Выберите видео');
-    
-    const user = document.getElementById('uploadUser').value || 'user_' + Date.now();
-    const desc = document.getElementById('uploadDesc').value;
-    
-    const formData = new FormData();
-    formData.append('video', selectedFile);
-    formData.append('user', user);
-    formData.append('description', desc);
-    
-    try {
-        const res = await fetch('/api/videos/upload', { method: 'POST', body: formData });
-        const data = await res.json();
-        if (data.success) {
-            closeUpload();
-            showToast('🎉 Видео загружено!');
-            loadVideos();
-        } else {
-            showToast('❌ ' + (data.error || 'Ошибка'));
-        }
-    } catch(e) {
-        showToast('❌ Ошибка загрузки');
-    }
+    if (!selectedFile) return toast('❌ Выберите видео');
+    const fd = new FormData(); fd.append('video', selectedFile); fd.append('user', document.getElementById('uploadUser').value || 'anonymous'); fd.append('description', document.getElementById('uploadDesc').value);
+    const res = await fetch('/api/videos/upload', { method:'POST', body:fd });
+    const d = await res.json();
+    if (d.success) { closeUpload(); toast('🎉 Видео загружено!'); loadVideos(); } else toast('❌ '+d.error);
 }
 
-// Админка
+// АВТОРИЗАЦИЯ
+function openAuth() { document.getElementById('authModal').classList.add('active'); updateAuthUI(); }
+function closeAuth() { document.getElementById('authModal').classList.remove('active'); }
+function switchAuthTab(mode) { authMode = mode; document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', (i===0&&mode==='login')||(i===1&&mode==='register'))); document.getElementById('authTitle').textContent = mode==='login'?'👤 Вход':'📝 Регистрация'; }
+async function doAuth() {
+    const username = document.getElementById('authUsername').value.trim();
+    const password = document.getElementById('authPassword').value.trim();
+    if (!username || !password) return toast('❌ Заполните поля');
+    const url = authMode === 'login' ? '/api/login' : '/api/register';
+    const res = await fetch(url, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({username, password}) });
+    const d = await res.json();
+    if (d.success) { currentUser = d.data; localStorage.setItem('monkeyUser', JSON.stringify(currentUser)); updateAuthUI(); toast('✅ '+(authMode==='login'?'Вход выполнен!':'Регистрация успешна!')); closeAuth(); }
+    else toast('❌ '+d.error);
+}
+function updateAuthUI() { document.getElementById('authStatus').innerHTML = currentUser ? `✅ Вы: <b>${currentUser.username}</b> <button onclick="logout()" style="margin-left:10px;padding:4px 12px;border-radius:10px;border:none;background:#ff2d55;color:white;cursor:pointer;">Выйти</button>` : ''; }
+function logout() { currentUser = null; localStorage.removeItem('monkeyUser'); updateAuthUI(); toast('👋 Вы вышли'); }
+
+// АДМИН
 async function openAdmin() {
     const token = prompt('🔑 Админ-токен:');
     if (!token) return;
+    const res = await fetch(`/api/admin/stats?token=${token}`);
+    const d = await res.json();
+    if (!d.success) return toast('❌ Неверный токен');
     
-    try {
-        const res = await fetch(`/api/admin/stats?token=${token}`);
-        const data = await res.json();
-        if (data.success) {
-            const action = prompt(`📊 Статистика:\nВидео: ${data.data.totalVideos}\nПользователей: ${data.data.totalUsers}\n\nСоздать ивент? (название / нет)`);
-            if (action && action !== 'нет') {
-                const res2 = await fetch('/api/events/admin/create', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'admin-token': token },
-                    body: JSON.stringify({ title: action, emoji: '🎉' })
-                });
-                const data2 = await res2.json();
-                if (data2.success) showToast('🎉 Ивент создан!');
-            }
-        } else {
-            showToast('❌ Неверный токен');
-        }
-    } catch(e) {
-        showToast('❌ Ошибка');
-    }
-}
-
-// Вспомогательное
-function formatCount(n) {
-    if (n >= 1000000) return (n/1000000).toFixed(1) + 'M';
-    if (n >= 1000) return (n/1000).toFixed(1) + 'K';
-    return String(n || 0);
-}
-
-function showToast(msg) {
-    const t = document.createElement('div');
-    t.className = 'toast';
-    t.textContent = msg;
-    document.getElementById('toastContainer').appendChild(t);
-    setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 300); }, 2000);
-}
-
-// Свайпы
-document.addEventListener('touchstart', (e) => { startY = e.touches[0].clientY; }, {passive: false});
-document.addEventListener('touchend', (e) => {
-    const diff = e.changedTouches[0].clientY - startY;
-    if (Math.abs(diff) > 50) diff < 0 ? switchVideo(currentIndex + 1) : switchVideo(currentIndex - 1);
-});
-
-// Клавиатура
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowUp') switchVideo(currentIndex - 1);
-    if (e.key === 'ArrowDown') switchVideo(currentIndex + 1);
-});
-
-// Drag & Drop
-const dropZone = document.getElementById('dropZone');
-if (dropZone) {
-    dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.style.borderColor = '#ff6b35'; });
-    dropZone.addEventListener('dragleave', () => { dropZone.style.borderColor = ''; });
-    dropZone.addEventListener('drop', (e) => {
-        e.preventDefault();
-        dropZone.style.borderColor = '';
-        if (e.dataTransfer.files[0]) {
-            selectedFile = e.dataTransfer.files[0];
-            document.getElementById('fileInfo').style.display = 'block';
-            document.getElementById('fileInfo').innerHTML = `📁 ${selectedFile.name} (${(selectedFile.size/1024/1024).toFixed(1)}MB)`;
-        }
+    const usersRes = await fetch(`/api/admin/users?token=${token}`);
+    const users = await usersRes.json();
+    
+    let html = `<h3>📊 Статистика</h3><p>Видео: ${d.data.videos} | Пользователей: ${d.data.users} | Комментов: ${d.data.comments}</p>`;
+    html += `<h3 style="margin-top:16px;">👥 Пользователи</h3><div class="admin-list">`;
+    (users.data||[]).forEach(u => {
+        html += `<div class="admin-item"><span>${u.username} ${u.is_verified?'✓':''} ${u.is_banned?'🚫':''}</span><div>`;
+        if (!u.is_verified) html += `<button class="btn-verify" onclick="verifyUser(${u.id},'${token}')">✓</button>`;
+        html += u.is_banned ? `<button class="btn-unban" onclick="unbanUser(${u.id},'${token}')">Разбан</button>` : `<button class="btn-ban" onclick="banUser(${u.id},'${token}')">Бан</button>`;
+        html += `</div></div>`;
     });
+    html += `</div>`;
+    
+    const w = window.open('','_blank','width=400,height=600');
+    w.document.write(`<html><head><meta charset="UTF-8"><title>Админ</title><style>body{font-family:Arial;padding:20px;background:#1a1a2e;color:white;}.btn-verify{background:#4dabf7;color:white;border:none;padding:6px 12px;border-radius:6px;cursor:pointer;margin:2px;}.btn-ban{background:#ff2d55;color:white;border:none;padding:6px 12px;border-radius:6px;cursor:pointer;margin:2px;}.btn-unban{background:#34c759;color:white;border:none;padding:6px 12px;border-radius:6px;cursor:pointer;margin:2px;}.admin-item{display:flex;justify-content:space-between;align-items:center;padding:10px;border-bottom:1px solid rgba(255,255,255,0.1);}</style></head><body>${html}</body></html>`);
 }
 
-// Запуск
+async function verifyUser(id, token) { await fetch(`/api/admin/users/${id}/verify`, { method:'POST', headers:{'admin-token':token} }); toast('✅ Верифицирован'); }
+async function banUser(id, token) { await fetch(`/api/admin/users/${id}/ban`, { method:'POST', headers:{'admin-token':token} }); toast('🚫 Забанен'); }
+async function unbanUser(id, token) { await fetch(`/api/admin/users/${id}/unban`, { method:'POST', headers:{'admin-token':token} }); toast('✅ Разбанен'); }
+
+// ПОИСК
+function toggleSearch() { const bar = document.getElementById('searchBar'); bar.style.display = bar.style.display === 'block' ? 'none' : 'block'; if (bar.style.display==='block') document.getElementById('searchInput').focus(); }
+async function searchVideos() {
+    const q = document.getElementById('searchInput').value.trim();
+    if (!q) return loadVideos();
+    const res = await fetch(`/api/videos/search?q=${encodeURIComponent(q)}`);
+    const d = await res.json();
+    videos = d.data || [];
+    renderVideos();
+    toast(`🔍 Найдено: ${videos.length}`);
+}
+
+// СВАЙПЫ
+document.addEventListener('touchstart', e => { startY = e.touches[0].clientY; }, {passive:false});
+document.addEventListener('touchend', e => { const d = e.changedTouches[0].clientY - startY; if (Math.abs(d)>50) d<0 ? switchVideo(currentIndex+1) : switchVideo(currentIndex-1); });
+document.addEventListener('keydown', e => { if (e.key==='ArrowUp') switchVideo(currentIndex-1); if (e.key==='ArrowDown') switchVideo(currentIndex+1); });
+
+function fmt(n) { return n>=1000000?(n/1000000).toFixed(1)+'M':n>=1000?(n/1000).toFixed(1)+'K':String(n||0); }
+function toast(m) { const t = document.createElement('div'); t.className='toast'; t.textContent=m; document.getElementById('toastContainer').appendChild(t); setTimeout(()=>{t.style.opacity='0';setTimeout(()=>t.remove(),300)},2000); }
+
+updateAuthUI();
 loadVideos();
 </script>
 </body>
